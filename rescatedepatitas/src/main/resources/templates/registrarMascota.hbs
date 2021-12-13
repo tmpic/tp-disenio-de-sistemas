@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="StyleSheet" href="css/registrarMascota.css" title="Contemporaneo" />
+  <!-- <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    /> -->
+  <link rel="stylesheet" href="css/bootstrap.css" />
+
+  <link rel="stylesheet" href="https://fonts.google.com/?query=Annie+Use+Your+Telescope" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=material-icons-outlined" />
+
+  <title>Rescate de patitas</title>
+</head>
+
+<body>
+  <!-- navbar-expand-md bootstrap 5
+          navbar-toggleable-md bootstrap 4  -->
+  {{> navBar.hbs}}
+
+
+  <div class="mt-5 text-center">
+    <h2>Registra a tu mascota para obtener </h2>
+    <h2>una chapa con QR</h2>
+  </div>
+
+  <div class="container form p-5">
+    <form name="registroDeMascota" action="/registrarMascota" method="POST" enctype="multipart/form-data"
+      onsubmit="onSubmit()">
+
+      <div class="form-row">
+
+        <div class="form-group col-md-6">
+          <label for="nombreMascota">Nombre Mascota</label>
+          <input type="text" name="nombreMascota" class="form-control" id="nombreMascota" placeholder="Nombre Mascota"
+            autofocus required />
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="apodo">Apodo</label>
+          <input type="text" name="apodo" id="apodo" class="form-control" placeholder="Apodo" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="edad">Edad aproximada</label>
+        <input type="number" name="edad" id="edad" class="form-control" placeholder="Edad" required />
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripcion</label>
+        <textarea class="form-control" id="descripcion" name="descripcion" placeholder="" required></textarea>
+      </div>
+
+
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label for="especie">Especie</label>
+            <select class="form-control" id="especie" name="especie" onchange="cargarSelectRazas()" required>
+              <option value="">Seleccione...</option>
+              {{#each especies}}
+              <option value="{{id}}">{{tipo}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="raza">Raza</label>
+            <select class="form-control" id="raza" name="raza" required>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <label for="sexo">Sexo</label>
+          <select name="sexo" id="sexo" class="form-control" required>
+            <option selected>Elegir</option>
+            <option value="macho">Macho</option>
+            <option value="hembra">Hembra</option>
+          </select>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="organizacion">Organizacion</label>
+            <select class="form-control" id="organizacion" name="organizacion" required>
+              <option value="">Seleccione...</option>
+              {{#each organizaciones}}
+              <option value="{{id}}">{{nombreOrganizacion}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="fotos">Elegir foto de mascota</label>
+        <input type="file" class="form-control-file" name="fotos" id="fotos" multiple="multiple" accept="image/*"
+          value="Subir Fotos">
+      </div>
+
+      <div class="card border-light text-dark">
+        <div class="card-body">
+          <p class="h3">Caracteristicas</p>
+          <input type="hidden" name="caracteristicas" id="caracteristicas">
+
+          <div>
+            <select class="form-control" id="selectCaracteristicas" name="selectCaracteristicas" size="3">
+            </select>
+            <button type="button" class="btn btn-danger btn-block btn-sm mt-1"
+              onclick="fnRemoverCaracteristica();">Eliminar Caracteristica</button>
+          </div>
+          <div class="form-group">
+            <label for="caracteristica">Caracteristica</label>
+            <select class="form-control" id="caracteristica">
+              <option value="">Seleccione...</option>
+              {{#each caracteristicas}}
+              <option value="{{id}}">{{unaCaracteristica}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="caracteristica-valor">valor</label>
+            <input type="text" class="form-control" name="caracteristica-valor" id="caracteristica-valor"
+              placeholder="Ingrese valor" />
+          </div>
+          <button type="button" class="btn btn-success btn-sm" onclick="fnAgregarCaracteristica()">Añadir
+            Caracteristica</button>
+        </div>
+        <div class="custom-file mt-3">
+          <button type="submit" value="registrar" class="btn btn-primary">Registrar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  {{#json especies }}
+  <input type="hidden" id="json" value="{{this}}">
+  {{/json}}
+  <!-- B4 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="js/caracteristicasMascota.js"></script>
+  <script>
+    let json = $("#json").val();
+    let especies = JSON.parse(json);
+    function cargarSelectRazas() {
+      let especie_id = $("#especie").val();
+      let razas = especies.filter(e => e.id == especie_id)[0].razas;
+      $("#raza").empty();
+
+      var opt = document.createElement('option');
+      opt.value = '';
+      opt.innerHTML = 'Seleccione...';
+      opt.selected = 'selected';
+      document.getElementById("raza").appendChild(opt);
+
+      razas.forEach(raza => {
+        var opt = document.createElement('option');
+        opt.value = raza.id;
+        opt.innerHTML = raza.nombre;
+        document.getElementById("raza").appendChild(opt);
+      })
+    }
+  </script>
+</body>
+
+</html>

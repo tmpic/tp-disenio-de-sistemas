@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="StyleSheet" href="css/index.css" title="Contemporaneo" />
+    <link rel="stylesheet" href="css/animalesPerdidos.css">
+    <!-- <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    /> -->
+    <link rel="stylesheet" href="css/bootstrap.css" />
+
+    <link rel="stylesheet" href="https://fonts.google.com/?query=Annie+Use+Your+Telescope" />
+
+    <link rel="stylesheet" href="https://fonts.google.com/?query=Bad+Script" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=material-icons-outlined" />
+    <!-- font-awesome -->
+    <script src="https://kit.fontawesome.com/f82b9b27db.js" crossorigin="anonymous"></script>
+    <title>Rescate de patitas</title>
+</head>
+
+<body>
+    <!-- navbar-expand-md bootstrap 5
+      navbar-toggleable-md bootstrap 4  -->
+    {{> navBar.hbs}}
+
+
+    <br />
+    <br />
+    <br />
+
+    <center>
+        <div class="titulo">
+            <h1>Adoptar Mascota</h1>
+        </div>
+    </center>
+    <div class="alert alert-success alert-dismissible" id="success-alert" style="display: none;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Éxito!</strong> El dueño ha sido notificado.
+    </div>
+
+    <div class="container">
+        <div class=" row">
+            <div class="col-2">
+                <h3>Filtros</h3>
+                <br>
+                <form>
+
+                    <p><b>Sexo</b></p>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sexoFiltro" id="sexoFiltroM" value="macho"
+                            onChange="cargarFiltrosYOrdenar()" {{#equals sexo 'macho' }}checked{{/equals}}>
+                        <label class="form-check-label" for="sexoFiltroM">
+                            Macho
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sexoFiltro" id="sexoFiltroH" value="hembra"
+                            onChange="cargarFiltrosYOrdenar()" {{#equals sexo 'hembra' }}checked{{/equals}}>
+                        <label class="form-check-label" for="sexoFiltroH">
+                            Hembra
+                        </label>
+                    </div>
+                    <button onclick="borrarFiltroSexo()" class="btn btn-danger btn-sm"><i class="fas fa-times"> Borrar
+                            filtro </i></button>
+                    <br>
+
+                    <p><b>Especie</b></p>
+                    <select id="especie" onChange="cargarSelectRazas(); cargarFiltrosYOrdenar();">
+                        <option value="">seleccione...</option>
+                        {{#each especies}}
+                        <option value="{{id}}" {{#equals especie id}}selected="selected" {{/equals}}>{{tipo}}</option>
+                        {{/each}}
+                    </select>
+                    <p><b>Raza</b></p>
+                    <select id="raza" name="raza" onchange="cargarFiltrosYOrdenar()">
+                        <option value="">seleccione...</option>
+                        {{#each razas}}
+                        <option value="{{id}}" {{#equals raza id}}selected="selected" {{/equals}}>{{nombre}}</option>
+                        {{/each}}
+                    </select>
+                    {{#json especies }}
+                    <input type="hidden" id="json" value="{{this}}">
+                    {{/json}}
+                    <p><b>Caracteristicas</b></p>
+                    <table>
+                        {{#each caracteristicasParam}}
+                        <tr>
+                            <td>
+                                <label
+                                    for="caracteristica-{{@key.unaCaracteristica}}">{{@key.unaCaracteristica}}</label>
+                            </td>
+                            <td>
+                                <select id="caracteristica-{{@key.unaCaracteristica}}" class="caracteristica-filtro"
+                                    onChange="cargarFiltrosYOrdenar()" caracteristica="{{@key.id}}">
+                                    <option value="">seleccione...</option>
+                                    {{#each this}}
+                                    <option value="{{descripcion}}" {{#equals descripcion (lookup caracteristicasFiltros
+                                        @key.id)}}selected="selected" {{/equals}}>{{descripcion}}</option>
+                                    {{/each}}
+                                </select>
+                            </td>
+                        </tr>
+
+
+                        {{/each}}
+                    </table>
+                </form>
+            </div>
+            <div class="col-10">
+
+
+                <div class="caja">
+                    <div class="row mb-4 ml-2">
+
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-xl-3">
+                            <a href="/darEnAdopcionMiMascota">
+
+                                <button type="button" class="btn btn-success">Dar en adopcion</button>
+                            </a>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-xl-3">
+
+
+                            <form name="form1">
+                                <select name="sitio" class="form-select" aria-label="Default select example"
+                                    onChange="cargarFiltrosYOrdenar()" id="sort">
+                                    <option value="">» Ordenar «</option>
+                                    <option value="1" {{#equals ordenar '1' }}selected="selected" {{/equals}}>Nombre:
+                                        A-Z</option>
+                                    <option value="2" {{#equals ordenar '2' }}selected="selected" {{/equals}}>Nombre:
+                                        Z-A</option>
+                                    <option value="4" {{#equals ordenar '4' }}selected="selected" {{/equals}}>
+                                        Fecha:Ultimos publicados</option>
+                                    <option value="3" {{#equals ordenar '3' }}selected="selected" {{/equals}}>
+                                        Fecha:Primeros publicados</option>
+                                </select>
+                            </form>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="container">
+                        <div class="row">
+
+                            {{#each publicaciones as |pub pubId|}}
+
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-xl-3">
+                                <div class="mascotaPerdida">
+
+                                    <center>
+
+                                        <!-- Carousel -->
+                                        <div id="carouselMascota-{{id}}" class="mw-100 carousel slide "
+                                            data-ride="carousel">
+                                            <ol class="carousel-indicators">
+                                                {{#each mascota.fotos as |foto|}}
+                                                <li data-target="#carouselMascota-{{id}}" data-slide-to="{{@index}}"
+                                                    {{#unless @index}}class="active" {{/unless}}></li>
+                                                {{/each}}
+                                            </ol>
+                                            <div class="carousel-inner mw-100">
+
+                                                {{#each mascota.fotos as |foto|}}
+                                                <div class="carousel-item {{#unless @index}}active{{/unless}}">
+                                                    <img class="d-block w-100" src="&#x2f;{{ruta}}" alt="First slide">
+                                                </div>
+                                                {{/each}}
+                                            </div>
+                                            <a class="carousel-control-prev" href="#carouselMascota-{{id}}"
+                                                role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Previo</span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#carouselMascota-{{id}}"
+                                                role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Siguiente</span>
+                                            </a>
+                                        </div>
+
+
+
+                                        <div class="descripcion">
+                                            <hr />
+
+                                            <br />
+
+                                            <h4>Nombre: {{mascota.apodo}}</h4>
+                                            <h4>Sexo: {{mascota.sexo}}</h4>
+                                            <h4>Edad: {{mascota.edad}}</h4>
+                                            <h4>Raza: {{mascota.raza.nombre}}</h4>
+
+                                            <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                                data-target="#exampleModal{{id}}">ver mas</button>
+                                            <button type="button" class="btn btn-secondary"
+                                                onclick="quieroAdoptar({{id}})">Quiero adoptar</button>
+
+                                            <br />
+                                        </div>
+                                    </center>
+                                </div>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal{{id}}" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+
+                                            <h5 class="modal-title" id="exampleModalLabel">
+                                                <center>Mascota en adopcion</center>
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4>Nombre: {{mascota.nombre}}</h4>
+                                            <h4>Apodo: {{mascota.apodo}}</h4>
+                                            <h4>Sexo: {{mascota.sexo}}</h4>
+                                            <h4>Edad: {{mascota.edad}}</h4>
+                                            <h4>Descripcion: {{descripcion}}</h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Cerrar</button>
+                                            <button type="button" class="btn btn-primary">Adoptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{/each}}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <!-- Jquery -->
+
+    <!-- B4 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="js/publicaciones.js"></script>
+    <script>
+        let json = $("#json").val();
+        let especies = JSON.parse(json);
+        function cargarSelectRazas() {
+            let especie_id = $("#especie").val();
+            let razas = especies.filter(e => e.id == especie_id)[0].razas;
+            $("#raza").empty();
+
+            var opt = document.createElement('option');
+            opt.value = '';
+            opt.innerHTML = 'Seleccione...';
+            opt.selected = 'selected';
+            document.getElementById("raza").appendChild(opt);
+
+            razas.forEach(raza => {
+                var opt = document.createElement('option');
+                opt.value = raza.id;
+                opt.innerHTML = raza.nombre;
+                document.getElementById("raza").appendChild(opt);
+            })
+        }
+    </script>
+
+</body>
+
+</html>

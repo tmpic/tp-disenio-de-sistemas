@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <title>Login/Registro - Rescate de Patitas</title>
+      <link rel="stylesheet" type="text/css" href="css/Preguntas_Orga.css">
+
+      <link rel="stylesheet" href="css/bootstrap.css" />
+        <!--
+      <link rel="stylesheet" href="https://fonts.google.com/?query=Annie+Use+Your+Telescope" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=material-icons-outlined" />
+      -->
+
+  </head>
+
+  <body>
+    <div class="loginbox">
+      <img src="img/png.png" class="logo">
+      <br>
+      <br>
+         <form name="AdoptarForm" action="/crearPublicacionesDeAdoptantes" method="POST">
+          <h1>Hacer publicacion para buscar una mascota</h1>
+          <p> (*) Campo Obligatorio</p>
+          <br>
+
+          <div class="form-group">
+              <label for="organizacion">Organizacion</label>
+              <select class="form-control" id="organizacion" name="organizacion" required>
+                <option value="">Seleccione...</option>
+                {{#each organizaciones}}
+                <option value="{{id}}">{{nombreOrganizacion}}</option>
+                {{/each}}
+              </select>
+          </div>
+          <div class="form-group">
+              <label for="especie">Especie</label>
+              <select class="form-control" id="especie" name="especie" onchange="cargarSelectRazas()" required>
+                <option value="">Seleccione...</option>
+                {{#each especies}}
+                <option value="{{id}}">{{tipo}}</option>
+                {{/each}}
+              </select>
+          </div>
+
+
+            <div class="form-group">
+              <label for="raza">Raza</label>
+              <select class="form-control" id="raza" name="raza" required>
+              </select>
+            </div>
+
+            <h3>Preferencia de sexo sobre la mascota:</h3>
+            <input type="radio" name="sexoValue" id="sexoValue" value= "Macho" >Macho
+            <br>
+            <input type="radio" name="sexoValue" id="sexoValue" value= "Hembra" >Hembra
+            <h3>¿Usted Posee Patio?</h3>
+            <input type="radio" name="patioValue" id="patioValue" value= "Si" >Si
+            <br>
+            <input type="radio" name="PatioValue" id="patioValue" value= "No" >No
+            <h3>¿Tiene Alguna preferencia con respecto al tamaño de su mascota?</h3>
+            <input type="radio" name="tamanio" id="tamanio" value="Pequeña">Pequeña
+            <br>
+            <input type="radio" name="tamanio" id="tamanio" value="Mediana">Mediana
+            <br>
+            <input type="radio" name="tamanio" id="tamanio" value="Grande">Grande
+            <br>
+            <input type="radio" name="tamanio" id="tamanio" value="Cualquiera">Cualquiera
+            <h3>¿Usted Tiene otras mascotas en su casa?</h3>
+            <input type="radio" name="mascotasValue" id="mascotasValue" value="Si">Si
+            <br>
+            <input type="radio" name="mascotasValue" id="mascotasValue"value="No">No
+            <h3>¿Usted Posee Juguetes para mascotas?</h3>
+            <input type="radio" name="JuguetesValue" id = "JuguetesValue" value="Si posee Juguetes">Si
+            <br>
+            <input type="radio" name="JuguetesValue" id = "JuguetesValue" value="No Posee Juguetes">No
+            <h3>¿Usted Tiene Conocimientos sobre el tipo de mascota que desea adoptar?</h3>
+            <input type="radio" name="ConocimientosValue" id="ConocimientosValue" value="Con conocimientos sobre Mascotas">Si
+            <br>
+            <input type="radio" name="ConocimientosValue" id="ConocimientosValue" value="Sin conocimientos sobre mascotas">No
+            <h3>¿Cuál es su disponibilidad para salir a pasear con su mascota?</h3>
+            <input type="radio" name="paseoValue" id ="paseoValue" value="Todos los dias">Todos los dias
+            <br>
+            <input type="radio" name="paseoValue" id ="paseoValue" value="varias veces a la semana">5-3 veces a la semana
+            <br>
+            <input type="radio" name="paseoValue" id ="paseoValue" value="Una vez a la semana">Una vez a la semana
+            <br>
+            <input type="radio" name="paseoValue" id ="paseoValue" value="Muy ocacionalmente">Muy ocacionalmente
+            <h3>¿Tiene Alguna preferencia con respecto al pelaje su mascota?</h3>
+            <input type="radio" name="PelajeValue" id="PelajeValue" value="Poco Pelaje">Poco Pelaje
+            <br>
+            <input type="radio" name="PelajeValue" id="PelajeValue" value="Mucho Pelaje">Mucho Pelaje
+            <br>
+            <input type="radio" name="PelajeValue" id="PelajeValue" value="No importa el Pelaje">Cualquiera
+            <h3>¿Qué tipo de Mascota desea?</h3>
+            <input type="radio" name="energiaMascota" id="energiaMascota" value="Mascota tranquila">Mascota tranquila
+            <br>
+            <input type="radio" name="energiaMascota" id="energiaMascota" value="Mascota Juegetona">Mascota Juguetona
+            <br>
+            <input type="radio" name="energiaMascota" id="energiaMascota" value="No importa la energia">Cualquiera
+            <h3>¿Necesita que su mascota sea obediente?</h3>
+            <input type="radio" name="obedienciaValue" id ="obedienciaValue" value="Necesario">Si
+            <br>
+            <input type="radio" name="obedienciaValue" id ="obedienciaValue" value="No es Necesario">No / no es importante
+
+            <br>
+
+          <input type="submit" name="" value="  Enviar Respuestas  ">
+
+        </form>
+    </div>
+    {{#json especies }}
+      <input type="hidden" id="json" value="{{this}}">
+      {{/json}}
+      <!-- B4 -->
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+      <script>
+        let json = $("#json").val();
+        let especies = JSON.parse(json);
+        function cargarSelectRazas() {
+          let especie_id = $("#especie").val();
+          let razas = especies.filter(e => e.id == especie_id)[0].razas;
+          $("#raza").empty();
+
+          var opt = document.createElement('option');
+          opt.value = '';
+          opt.innerHTML = 'Seleccione...';
+          opt.selected = 'selected';
+          document.getElementById("raza").appendChild(opt);
+
+          razas.forEach(raza => {
+            var opt = document.createElement('option');
+            opt.value = raza.id;
+            opt.innerHTML = raza.nombre;
+            document.getElementById("raza").appendChild(opt);
+          })
+        }
+      </script>
+</body>
+</html>

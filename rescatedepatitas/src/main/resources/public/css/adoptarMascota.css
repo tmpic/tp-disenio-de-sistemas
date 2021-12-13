@@ -1,0 +1,53 @@
+body {
+  background-color: #fffbdf;
+}
+
+.navbar {
+  margin-top: 30px;
+  background-color: #c6ffc1;
+  font-family: "Annie Use Your Telescope", cursive;
+}
+
+.hover a {
+  color: #34656d;
+  text-decoration: none;
+  text-shadow: 1px 1px;
+}
+
+.hover a:hover {
+  background-color: #34656d;
+  color: #fffbdf;
+
+  border-style: solid;
+  border-color: #334443;
+  padding: 5px;
+}
+.icono {
+  max-width: 20px;
+  height: auto;
+}
+
+.adoptar {
+  font-family: "Bad Script", cursive;
+  text-align: center;
+}
+
+.caja {
+  border-style: solid;
+  background-color: white;
+  border-width: 2px;
+  padding-bottom: 15px;
+  padding-top: 30px;
+  margin: 1px;
+  /* margin-bottom: 5px; */
+}
+
+.descripcion hr {
+  width: 150px;
+  border: solid 1.1px;
+}
+
+.mascotaPerdida {
+  border-style: solid;
+  margin: 4px;
+}

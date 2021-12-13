@@ -1,0 +1,101 @@
+body {
+    background-color: #fffbdf;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+  }
+
+.loginbox{
+ 
+   width:  800PX;
+   height: 2000PX;
+   background-color:  #334443;
+   color: #fff;
+   top: 800px;
+   left: 800px;
+   position: absolute;
+   transform:  translate(-50%,-35%);
+   padding: 20px 30px;
+}
+.logo{
+width: 400px;
+height: 150px;
+border-radius: 50%;
+position: absolute;
+top: -75px;
+left: calc(50% - 185px);
+    }
+h1{
+   text-align: left;
+   font-size: 50px;
+}
+p{
+    font-size: 10px;
+}
+
+.loginbox p{
+    margin: 2px;
+    padding: 0;
+  
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+.loginbox input[type= "text"],input[type="password"]{
+border: none;
+border-bottom: 1px solid #fff;
+background: transparent;
+outline: none;
+height: 40px;
+color: #fff;
+font-size: 25px;
+}
+
+.loginbox input[type="submit"]
+{
+    border: none;
+    outline: none;
+    height: 40px;
+    background: gray;
+    color: white;
+    font-size: 24px;
+    border-radius: 10px;
+    margin-left: 0%;
+    margin-top: 2%;
+}
+.loginbox input[type="submit"]:hover
+{
+    cursor: pointer;
+    background: #BBBEEC;
+    color: black;
+}
+.loginbox a{
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 20px;
+    color: darkgray;
+    text-align: center;
+
+}
+textarea{
+    border-radius: 10px;
+    width: 95%;
+}
+
+.loginbox a:hover
+{
+    color:deepskyblue;
+}
+
+.mascotaDuenio{
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 25px;;
+    display:block;
+    border-radius: 5px;
+    height: 40px;
+    width: 90%;
+    margin-top: 10px ;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    min-width: 150px;
+}

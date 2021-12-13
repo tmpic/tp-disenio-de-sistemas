@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<link rel="StyleSheet" href="../css/index.css" title="Contemporaneo"/>
+<!-- <link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+  crossorigin="anonymous"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+  integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+  crossorigin="anonymous"
+/> -->
+<link rel="stylesheet" href="../css/bootstrap.css">
+
+
+<link rel="stylesheet" href="css/hogares.css" />
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+<link rel="stylesheet" href="https://fonts.google.com/?query=Annie+Use+Your+Telescope"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=material-icons-outlined"/>
+
+<title>Rescate de patitas</title>
+</head>
+
+<body>
+{{> navBar.hbs}}
+<h2 class="text-dark my-5 mx-auto">
+    <center>Busqueda de Hogares</center>
+</h2>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Filtros
+</button>
+
+<a href="?latitud={{latitud}}&longitud={{longitud}}" class="btn btn-danger">borrar filtros</a>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Filtros</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="filtrosHogares">
+                    <div class="form-group">
+
+                        <select name="patio" id="patio">
+                            <option style="display: none;" value="" required>
+                                Patio
+                            </option>
+                            <option value="conPatio">
+                                Con Patio
+                            </option>
+                            <option value="sinPatio">
+                                Sin Patio
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+
+                        <select name="especie" id="especie">
+                            <option style="display: none;">
+                                Especie
+                            </option>
+                            <option value="perro">
+                                perro
+                            </option>
+                            <option value="gato">
+                                gato
+                            </option>
+                            <option value="sinRestriccion">
+                                Sin restriccion
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="disponibles" name="disponibilidad">
+                        <label class="form-check-label" for="disponibles">Hogares con capacidad disponible</label>
+                    </div>
+
+                    <div class="form-group">
+                        <select name="comodidad" id="comodidad">
+                            <option> Caracteristicas</option>
+                            {{#each comodidades}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Radio designado</label>
+                        <input type="number" name="radio">
+                    </div>
+<!--MAPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa-->
+                    <div id="search-container" class="input-group">
+                        <label for="pac-input">Seleccionar ubicacion</label>
+                        <input id="pac-input" class="controls form-control text-dark"
+                               style="height: 34px; margin-bottom: 4px;"
+                               type="text" autocomplete="one-time-code" placeholder="...">
+
+                    </div>
+
+                    <div id="map" style="position: fixed !important; z-index: 9999"></div>
+
+                    <div>
+                        <b class="h4">Longitud: </b><label id="lblLongitud">{{longitud}}</label>
+                        <input type="hidden" name="longitud" id="longitud" value="{{longitud}}">
+                    </div>
+                    <div>
+                        <b class="h4">Latitud: </b><label id="lblLatitud">{{latitud}}</label>
+                        <input type="hidden" name="latitud" id="latitud" value="{{latitud}}">
+                    </div>
+            </div>
+            <div class="col-10" style="height: 400px;">
+
+                    <div class="modal-footer">
+                        <button type="submit" type="button" class="btn btn-primary">Filtrar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{{#each hogares}}
+
+
+    <div class="card mt-2 mx-5">
+        <div class="card-body">
+            <h4 class="card-title">
+                {{nombre}}
+            </h4>
+            <h6 class="card-subtitle mb2 text-muted">Ubicacion: {{ubicacion.direccion}}</h6>
+            <p class="mt-1">Mascotas aceptadas: <b>{{tipoAdmision}} </b> de tamaño <b>{{tipoDeTamanio}}</b></p>
+            <p> Quedan <b>{{lugares_disponibles}}</b> cupo/s</p>
+            <p>Telefono: {{telefono}}</p>
+            <p>Distancia: {{radio}} KM </p>
+            {{#if mostrar}}<p>comodidades: {{#each caracteristicas}} {{this}} {{/each}}</p>{{/if}}
+        </div>
+    </div>
+{{/each}}
+
+<!--
+    <div class="mx-auto mt-3">
+
+        <div class="d-flex justify-content-around">
+            <nav aria-label="Page navigation example ">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="1">1</a></li>
+                    <li class="page-item"><a class="page-link" href="2">2</a></li>
+                    <li class="page-item"><a class="page-link" href="3">3</a></li>
+                    <li class="page-item"><a class="page-link" href="4">4</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<script src="js/mapa.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFAO4BF2hEvYcgvYhVogGtHZidVaPnckE&libraries=places&callback=initAutocomplete"
+        async defer></script>
+
+<script src="js/datosdecontacto.js"></script>
+</body>
+
+</html>

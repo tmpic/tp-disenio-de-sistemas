@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="StyleSheet" href="css/index.css" title="Contemporaneo" />
+  <link rel="stylesheet" href="css/animalesPerdidos.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+
+  <link rel="stylesheet" href="https://fonts.google.com/?query=Annie+Use+Your+Telescope" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=material-icons-outlined" />
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <title>Rescate de patitas</title>
+</head>
+
+<body>
+  <!-- navbar-expand-md bootstrap 5
+          navbar-toggleable-md bootstrap 4  -->
+  {{> navBar.hbs}}
+
+  <br />
+  <br />
+  <br />
+
+
+  <div class="d-flex justify-content-center">
+    <div class="titulo">
+      <h1>Animales Encontrados</h1>
+    </div>
+  </div>
+  
+  <div class="alert alert-success alert-dismissible" id="success-alert" style="display: none;">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Éxito!</strong> El rescatista ha sido notificado.
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-2">
+        <div class="col-2">
+          <h3>Filtros</h3>
+          <br>
+          <form>
+
+            <p><b>Sexo</b></p>
+
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="sexoFiltro" id="sexoFiltroM" value="macho"
+                onChange="cargarFiltrosYOrdenar()" {{#equals sexo 'macho' }}checked{{/equals}}>
+              <label class="form-check-label" for="sexoFiltroM">
+                Macho
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="sexoFiltro" id="sexoFiltroH" value="hembra"
+                onChange="cargarFiltrosYOrdenar()" {{#equals sexo 'hembra' }}checked{{/equals}}>
+              <label class="form-check-label" for="sexoFiltroH">
+                Hembra
+              </label>
+            </div>
+            <button onclick="borrarFiltroSexo()" class="btn btn-danger btn-sm"><i class="fas fa-times"> Borrar filtro
+              </i></button>
+            <br>
+
+            <p><b>Especie</b></p>
+            <select id="especie" onChange="cargarFiltrosYOrdenar()">
+              <option value="">seleccione...</option>
+              {{#each especies}}
+              <option value="{{id}}" {{#equals especie id}}selected="selected" {{/equals}}>{{tipo}}</option>
+              {{/each}}
+            </select>
+            <br>
+            <p><b>Caracteristicas</b></p>
+            <table>
+              {{#each caracteristicasParam}}
+              <tr>
+                <td>
+                  <label for="caracteristica-{{@key.unaCaracteristica}}">{{@key.unaCaracteristica}}</label>
+                </td>
+                <td>
+                  <select id="caracteristica-{{@key.unaCaracteristica}}" class="caracteristica-filtro"
+                    onChange="cargarFiltrosYOrdenar()" caracteristica="{{@key.id}}">
+                    <option value="">seleccione...</option>
+                    {{#each this}}
+                    <option value="{{descripcion}}" {{#equals descripcion (lookup caracteristicasFiltros
+                      @key.id)}}selected="selected" {{/equals}}>{{descripcion}}</option>
+                    {{/each}}
+                  </select>
+                </td>
+              </tr>
+
+
+              {{/each}}
+            </table>
+          </form>
+        </div>
+      </div>
+      <div class="col-10">
+        <div class="caja">
+          <div class="row mb-4 ml-2">
+
+            <div class="col-xs-12 col-sm-12 col-md-4 col-xl-3">
+              <a href="/mascotaEncontrada">
+                <button type="button" class="btn btn-success">Encontré una mascota perdida</button>
+              </a>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-4 col-xl-3">
+              <form name="form1">
+                <select name="sitio" class="form-select" aria-label="Default select example"
+                  onChange="cargarFiltrosYOrdenar()" id="sort">
+                  <option value="">» Ordenar «</option>
+                  <option value="4" {{#equals ordenar '4' }}selected="selected" {{/equals}}>
+                    Fecha:Ultimos publicados</option>
+                  <option value="3" {{#equals ordenar '3' }}selected="selected" {{/equals}}>
+                    Fecha:Primeros publicados</option>
+                </select>
+              </form>
+            </div>
+
+
+          </div>
+
+          <div class="container">
+
+            <div class="row">
+              {{#each publicaciones}}
+
+              <div class="col-xs-12 col-sm-12 col-md-4 col-xl-3">
+                <div class="mascotaPerdida">
+                  <center>
+                    <div id="carouselMascota-{{id}}" class="mw-100 carousel slide fotosCarrousell" data-ride="carousel">
+                      <ol class="carousel-indicators">
+                        {{#each fotos as |foto|}}
+                        <li data-target="#carouselMascota-{{id}}" data-slide-to="{{@index}}" {{#unless
+                          @index}}class="active" {{/unless}}></li>
+                        {{/each}}
+                      </ol>
+                      <div class="carousel-inner mw-100">
+                        {{#each fotos as |foto|}}
+                        <div class="carousel-item {{#unless @index}}active{{/unless}}">
+                          <img class="d-block w-100" src="&#x2f;{{ruta}}" alt="First slide">
+                        </div>
+                        {{/each}}
+                      </div>
+                      <a class="carousel-control-prev" href="#carouselMascota-{{id}}" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previo</span>
+                      </a>
+                      <a class="carousel-control-next" href="#carouselMascota-{{id}}" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Siguiente</span>
+                      </a>
+                    </div>
+
+                    <div class="descripcion">
+                      <hr />
+
+                      <br />
+
+                      <h4>Descripcion: </h4>
+                      <p class="mx-1" style="word-wrap: break-word;">{{descripcion}}</p>
+                      <h4>Ubicacion: {{ubicacion.direccion}}</h4>
+                      <button type="button" class="btn btn-primary" onclick="esMiMascota({{id}})">Es mi mascota</button>
+
+                      <hr />
+
+                      <br />
+                    </div>
+                  </center>
+                </div>
+              </div>
+
+              {{/each}}
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <br />
+  <!-- Jquery -->
+
+  <!-- B4 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <script src="js/publicaciones.js"></script>
+</body>
+
+</html>

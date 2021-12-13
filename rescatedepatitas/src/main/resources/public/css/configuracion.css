@@ -1,0 +1,36 @@
+body {
+  /* background-color: #; */
+  background-color: #FFFBDF;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar {
+  margin-top: 30px;
+  background-color: #c6ffc1;
+  font-family: "Annie Use Your Telescope", cursive;
+}
+
+.hover a {
+  color: #34656d;
+  text-decoration: none;
+  text-shadow: 1px 1px;
+}
+
+.hover a:hover {
+  background-color: #34656d;
+  color: #fffbdf;
+
+  border-style: solid;
+  border-color: #334443;
+  padding: 5px;
+}
+
+.icono {
+  max-width: 20px;
+  height: auto;
+}
+
+.respuestas {            
+  list-style-type:upper-alpha;
+}       

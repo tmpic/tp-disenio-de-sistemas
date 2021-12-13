@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Caracteristicas</title>
+    <link rel="StyleSheet" href="css/configuracion.css" title="Contemporaneo" />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="js/caracteristicas.js"></script>
+    <!-- font-awesome -->
+    <script src="https://kit.fontawesome.com/f82b9b27db.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md">
+
+        <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+            aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <img src="img/outline_reorder_black_24dp.png" alt="extender menu" height="40" />
+        </button>
+
+
+        <div class="hover">
+            <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
+                <div class="navbar-nav">
+                    <a class="nav-link nav-item" href="/"><b>Inicio</b></a>
+                    <a class="nav-link nav-item" href="caracteristicas"><b>Características</b></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container-fluid px-5">
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <h1>Caracteristicas</h1>
+                    <button class="btn btn-success my-2" onclick="mostrarModal(-1)">
+                        <i class="fas fa-plus"></i> Nueva caracteristica
+                    </button>
+                    <table class="table table-bordered table-striped table-hover mt-3">
+                        <thead>
+                            <tr>
+                                <th>Caracteristica</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {{#each caracteristica}}
+                        <tr>
+                            <td>{{unaCaracteristica}}</td>
+                            <td>
+                                <button class="btn text-primary" onclick="mostrarModal({{id}})"><i class="fas fa-edit"></i></button>
+                            </td>
+                            <td>
+                                <button type="button" name="button" class="btn text-primary" onclick="eliminarCaracteristica('{{id}}')"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+
+    <div class="modal fade" id="caracteristicaModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Editar característica</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="/caracteristicas">
+                <div class="modal-body">
+                    <div class="form-group">
+
+                        <label for="caracteristica">Característica: </label>
+                        <input type="text" placeholder="Característica" class="form-control" id="caracteristica" name ="descripcion" required> <!--{{#if caracteristicasMascotas}}value="{{caracteristicasMascotas.descripcion}}" {{/if}}-->
+                        <input type="hidden" name="id" id="id">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+  <div class="modalEliminar modal" id="modalEliminar">
+    <div class="modalContent">
+        <input id="caracteristicaMascotaId" type="hidden" value="caracteristicaMascotaId">
+      <p>¿Desea eliminar el usuario?</p>
+      <button type="button" name="button" class="btn-close-modal" onclick="cerrarModal()" ><i class="fas fa-times-circle"></i></button>
+      <br>
+      <div class="">
+        <button type="button" name="button" class="btn-rojo" onclick="">Eliminar</button>
+        <button type="button" name="button" class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+</html>

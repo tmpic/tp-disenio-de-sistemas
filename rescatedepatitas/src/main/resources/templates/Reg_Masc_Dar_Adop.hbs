@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Login/Registro - Rescate de Patitas</title>
+    <link rel="stylesheet" type="text/css" href="css/Reg_Masc_Dar_Adop.css">
+
+</head>
+
+<body>
+
+
+<div class="loginbox">
+    <img src="img/png.png" class="logo">
+    <br>
+    <br>
+
+    <h1>Dar Mascota en Adopción</h1>
+        <p>Seleccionar Mascota a dar en adopcion</p>
+        <form id="encuesta" method="GET" href="/darEnAdopcionMiMascota">
+            <select name="mascota" class="mascotaDuenio">
+                {{#if mascotaSeleccionada}}
+                    <option value="{{mascotaSeleccionada.id}}"
+                            style="display: none;">{{mascotaSeleccionada.nombre}}</option>
+                {{/if}}
+                <option value="" style="display: none;">Seleccionar una Mascota</option>
+                {{#each mascotas}}
+                    <option value="{{id}}">{{nombre}}</option>
+                {{/each}}
+                <input type="submit" id="seleccion" value="  Seleccionar  ">
+            </select>
+        </form>
+    {{#if encuesta}}
+        <style>
+            .loginbox {
+                margin-top: 700px;
+            !important;
+                height: 200%;
+            !important;
+            }
+        </style>
+        <h2>Para poder dar en adopcion su mascota, debe responder Estas Preguntas:</h2>
+        <br>
+        <form id="encuesta" method="POST" href="/darEnAdopcionMiMascota">
+            {{#each encuesta.preguntas}}
+                <label for="{{id}}">{{unaPregunta}}</label>
+                <br>
+                {{#if respuestasPosibles}}
+                    {{#each respuestasPosibles}}
+                        <ol>
+                            <input type="radio" id="{{id}}"
+                                   name="grupoDeRespuestas{{unaPregunta}}"><label
+                                for="grupoDeRespuestas{{id}}">{{respuesta}}</label>
+                        </ol>
+
+                    {{/each}}
+                {{else}}
+                    <textarea id="{{id}}" name="{{id}}" cols="100" rows="3"
+                              placeholder="Escribe aqui el texto..."></textarea>
+                    <br>
+                    <br>
+
+                {{/if}}
+            {{/each}}
+            <p>Observaciones</p>
+            <textarea name="observaciones" cols="100" rows="5" placeholder="Escribe aqui el texto..."></textarea>
+            <br>
+            <label><input type="checkbox" id="cbox1" value="first_checkbox">Estoy de acuerdo en lo que implica dar en
+                adopcion mi mascota</label><br>
+            <label><input type="checkbox" id="cbox2" value="second_Checkbox">Respondi con honestidad las preguntas de la
+                página</label>
+            <input type="submit" name="" value="  Dar en Adopción  ">
+        </form>
+    {{/if}}
+</div>
+</body>
+</html>

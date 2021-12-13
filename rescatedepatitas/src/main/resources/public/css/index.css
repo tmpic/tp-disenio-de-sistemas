@@ -1,0 +1,98 @@
+body {
+  /* background-color: #; */
+  background-color: #FFFBDF !important;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar {
+  margin-top: 30px;
+  background-color: #c6ffc1;
+  font-family: "Annie Use Your Telescope", cursive;
+}
+
+.hover a {
+  color: #34656d;
+  text-decoration: none;
+  text-shadow: 1px 1px;
+}
+
+.hover a:hover {
+  background-color: #34656d;
+  color: #fffbdf;
+
+  border-style: solid;
+  border-color: #334443;
+  padding: 5px;
+}
+
+.logo {
+  max-width: 300px;
+  height: auto;
+  z-index: 1;
+}
+.icono {
+  max-width: 20px;
+  height: auto;
+}
+
+.RegistrarMascota {
+  background-color: #34656d;
+  border-radius: 50px;
+  text-align: center;
+  font-family: "Annie Use Your Telescope", cursive;
+  color: #fffbdf;
+  border-color: #334443;
+  border-style: solid;
+  border-width: 10px;
+  margin-left: 80px;
+  margin-right: 80px;
+}
+.RegistrarMascota a {
+  text-decoration: none;
+  color: #fffbdf;
+}
+
+.perro {
+  max-height: 500px;
+  width: auto;
+  position: absolute;
+  /* left: -10px; */
+}
+
+.caja {
+  border-style: solid;
+  background-color: white;
+  border-width: 2px;
+  padding-bottom: 15px;
+  padding-top: 30px;
+  /* margin-bottom: 5px; */
+}
+
+.fotoMascotaPerdida {
+  width: 80%;
+  height: 50%;
+  margin-top: 10px;
+}
+
+.mascotaPerdida {
+  border-style: solid;
+}
+
+.RegistrarMascota a {
+  text-decoration: none;
+  color: #fffbdf;
+}
+.descripcion {
+  margin-top: 40px;
+}
+
+.descripcion hr {
+  width: 200px;
+  border: solid 1.1px;
+}
+
+.fotosCarrousel{
+  width: 400px;
+  margin-top: 25px;
+}

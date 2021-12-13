@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <title>Login/Registro - Rescate de Patitas</title>
+  <script src="js/login.js"></script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="css/login.css">
+
+</head>
+
+<body>
+  {{#if error}}
+  <div class="alert alert-danger alert-dismissible" id="success-alert">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Error!</strong> {{error}}
+  </div>
+  {{/if}}
+  <div class="d-flex justify-content-center w-100">
+    <div class="loginbox">
+      <div class="d-flex justify-content-center">
+        <img src="img/png.png" class="logo">
+      </div>
+      <h1>Iniciar Sesión como {{tipo}}</h1>
+      <form name="loginForm" action="{{action}}" method="POST">
+        <p>Nombre de Usuario</p>
+        <input type="text" name="usuario" id="usuario" placeholder="Ingresar Usuario" required>
+
+        <p>Contraseña</p>
+        <input type="password" name="password" id="password" placeholder="Ingresar Contraseña" required>
+
+
+        <button type="submit" class="btn btn-success btn-block">Login</button>
+
+
+
+        {{#equals tipo 'duenio'}}
+        <a href="/register">No tiene una cuenta?</a>
+        {{/equals}}
+      </form>
+
+
+
+    </div>
+  </div>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
